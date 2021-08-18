@@ -4,11 +4,11 @@ public class Main {
     public static void main(String[] args) {
 //        Client client = new Client(12, 14, "Vasya", 100);
 
-        ClientBuilder cb = new ClientBuilder();
+        Client.ClientBuilder cb = new Client.ClientBuilder();
         cb.setDebt(12);
-        cb.setSalary(14);
+        cb.setBonus(14);
         cb.setName("Vasya");
-        cb.setBonus(100);
+        cb.setSalary(100);
 
         Client client = cb.getResult();
     }
