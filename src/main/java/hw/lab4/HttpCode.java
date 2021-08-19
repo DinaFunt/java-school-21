@@ -1,10 +1,7 @@
 package hw.lab4;
 
-import hw.lab4.handlers.Handle;
-import hw.lab4.handlers.InformationalHandler;
-import hw.lab4.handlers.RedirectionHandle;
-import hw.lab4.handlers.SuccessHandler;
 import lombok.Getter;
+import hw.lab4.handlers.*;
 
 @Getter
 public enum HttpCode {

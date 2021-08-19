@@ -9,6 +9,6 @@ public class HttpService {
 
     public static void main(String[] args) {
         HttpService service = new HttpService();
-        service.handleHttpCode(133);
+        service.handleHttpCode(233);
     }
 }
