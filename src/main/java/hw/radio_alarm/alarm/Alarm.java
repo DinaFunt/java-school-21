@@ -1,4 +1,4 @@
-package hw.radio_alarm;
+package hw.radio_alarm.alarm;
 
 public interface Alarm {
     public void turnOffAlarm();

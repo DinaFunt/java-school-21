@@ -1,4 +1,4 @@
-package hw.radio_alarm;
+package hw.radio_alarm.radio;
 
 public interface Radio {
     public void catchRadioStation();
