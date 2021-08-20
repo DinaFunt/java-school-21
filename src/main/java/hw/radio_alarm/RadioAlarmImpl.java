@@ -1,8 +1,5 @@
 package hw.radio_alarm;
 
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 public class RadioAlarmImpl implements RadioAlarm {
 
     @Override
@@ -26,7 +23,7 @@ public class RadioAlarmImpl implements RadioAlarm {
     }
 
     public static void main(String[] args) {
-        RadioAlarm ra = new RadioAlarmImpl();
+        RadioAlarmImpl ra = new RadioAlarmImpl();
         ra.catchRadioStation();
     }
 }
