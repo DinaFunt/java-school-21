@@ -1,8 +1,5 @@
 package hw.lab3.infra;
 
-/**
- * @author Evgeny Borisov
- */
 public class Main {
     public static void main(String[] args) {
         ReflectionHeroFactory heroFactory = new ReflectionHeroFactory();

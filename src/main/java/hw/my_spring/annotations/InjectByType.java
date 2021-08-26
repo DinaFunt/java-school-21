@@ -1,4 +1,4 @@
-package hw.annotations;
+package hw.my_spring.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

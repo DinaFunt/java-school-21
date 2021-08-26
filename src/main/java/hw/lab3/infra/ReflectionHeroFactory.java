@@ -6,9 +6,6 @@ import lombok.SneakyThrows;
 
 import java.util.List;
 
-/**
- * @author Evgeny Borisov
- */
 public class ReflectionHeroFactory implements HeroFactory {
 
 
