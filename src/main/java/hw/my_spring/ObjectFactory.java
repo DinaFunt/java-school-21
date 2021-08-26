@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import org.reflections.Reflections;
 
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ public class ObjectFactory {
     private static ObjectFactory instance = new ObjectFactory();
     private Config config = new JavaConfig();
     private Reflections scanner = new Reflections("hw.my_spring");
+
     private List<ObjectConfigurator> configurators = new ArrayList<>();
 
 
@@ -35,8 +37,19 @@ public class ObjectFactory {
         T t = type.getDeclaredConstructor().newInstance();
 
         configureObject(t);
+        initializeObject(t);
 
         return t;
+    }
+
+    @SneakyThrows
+    private <T> void initializeObject(T obj) {
+        Method[] methods = obj.getClass().getMethods();
+        for (var method: methods) {
+            if (method.getName().startsWith("init")) {
+                method.invoke(obj);
+            }
+        }
     }
 
     @SneakyThrows
