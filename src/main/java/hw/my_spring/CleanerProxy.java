@@ -1,10 +1,11 @@
 package hw.my_spring;
 
-import hw.my_spring.annotations.InjectByType;
-
 public class CleanerProxy implements Cleaner{
-    @InjectByType
-    private CleanerImpl cleaner;
+    private Cleaner cleaner;
+
+    public CleanerProxy() {
+        cleaner = ObjectFactory.getInstance().createObject(CleanerImpl.class);
+    }
 
     @Override
     public void clean() {
