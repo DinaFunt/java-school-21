@@ -1,13 +1,12 @@
 package hw.my_spring;
 
-public class CleanerProxy implements Cleaner{
+public class CleanerProxy {
     private Cleaner cleaner;
 
     public CleanerProxy() {
         cleaner = ObjectFactory.getInstance().createObject(CleanerImpl.class);
     }
 
-    @Override
     public void clean() {
         long start = System.currentTimeMillis();
         cleaner.clean();

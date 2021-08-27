@@ -2,10 +2,11 @@ package hw.my_spring;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
+import org.reflections.ReflectionUtils;
 import org.reflections.Reflections;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import javax.annotation.PostConstruct;
+import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -19,44 +20,44 @@ public class ObjectFactory {
 
     private List<ObjectConfigurator> configurators = new ArrayList<>();
 
-
     @SneakyThrows
     public ObjectFactory() {
-        Set<Class<? extends ObjectConfigurator>> configs = scanner.getSubTypesOf(ObjectConfigurator.class);
-        for (Class<? extends ObjectConfigurator> configurator : configs) {
-            if (!Modifier.isAbstract(configurator.getModifiers())) {
-                configurators.add(configurator.getDeclaredConstructor().newInstance());
+        Set<Class<? extends ObjectConfigurator>> classes = scanner.getSubTypesOf(ObjectConfigurator.class);
+        for (Class<? extends ObjectConfigurator> aClass : classes) {
+            if (!Modifier.isAbstract(aClass.getModifiers())) {
+                configurators.add(aClass.getDeclaredConstructor().newInstance());
             }
         }
     }
 
+
     @SneakyThrows
     public <T> T createObject(Class<T> type) {
+
         type = resolveImple(type);
 
         T t = type.getDeclaredConstructor().newInstance();
 
-        configureObject(t);
-        initializeObject(t);
+        configure(t);
 
-        return t;
+        invokeInit(type, t);
+
+        return ProxyWrapper.wrapToProxy(type, t);
     }
 
-    @SneakyThrows
-    private <T> void initializeObject(T obj) {
-        Method[] methods = obj.getClass().getMethods();
-        for (var method: methods) {
-            if (method.getName().startsWith("init")) {
-                method.invoke(obj);
-            }
+
+
+    private <T> void invokeInit(Class<T> type, T t) throws IllegalAccessException, InvocationTargetException {
+        Set<Method> allMethods = ReflectionUtils
+                .getAllMethods(type, method -> method.isAnnotationPresent(PostConstruct.class));
+
+        for (Method method : allMethods) {
+            method.invoke(t);
         }
     }
 
-    @SneakyThrows
-    private <T> void configureObject(T obj) {
-        for (ObjectConfigurator configurator : configurators) {
-            configurator.configure(obj);
-        }
+    private <T> void configure(T t) {
+        configurators.forEach(configurator -> configurator.configure(t));
     }
 
     private <T> Class<T> resolveImple(Class<T> type) {
@@ -73,6 +74,4 @@ public class ObjectFactory {
         }
         return type;
     }
-
-
 }
